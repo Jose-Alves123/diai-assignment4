@@ -15,9 +15,9 @@
                     <select id="type" name="type" class="form-select">
                         <option value="">All</option>
                         <option th:each="type : ${types}"
-                                th:value="${type}"
-                                th:text="${type}"
-                                th:selected="${selectedType == type}">WORKSHOP</option>
+                            th:value="${type.name}"
+                            th:text="${type.name}"
+                            th:selected="${selectedType == type.name}">WORKSHOP</option>
                     </select>
                 </div>
 
@@ -74,7 +74,7 @@
                         <a th:href="@{/clubs/{clubId}(clubId=${event.clubId})}" th:text="${clubNames[event.clubId]}">Club</a>
                     </td>
                     <td th:text="${event.date}">2026-01-01</td>
-                    <td th:text="${event.type}">WORKSHOP</td>
+                    <td th:text="${event.type.name}">WORKSHOP</td>
                     <td>
                         <a class="btn btn-sm btn-outline-secondary"
                            th:href="@{/clubs/{clubId}/events/{eventId}/edit(clubId=${event.clubId},eventId=${event.id})}">Edit</a>

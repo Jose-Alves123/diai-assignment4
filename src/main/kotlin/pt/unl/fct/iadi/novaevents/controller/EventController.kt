@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import pt.unl.fct.iadi.novaevents.controller.dto.EventFormDto
-import pt.unl.fct.iadi.novaevents.model.EventType
 import pt.unl.fct.iadi.novaevents.service.ClubService
 import pt.unl.fct.iadi.novaevents.service.DuplicateEventNameException
 import pt.unl.fct.iadi.novaevents.service.EventFilter
@@ -30,7 +29,7 @@ class EventController(
 
     @GetMapping("/events")
     fun listEvents(
-            @RequestParam(required = false) type: EventType?,
+            @RequestParam(required = false) type: String?,
             @RequestParam(required = false) clubId: Long?,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -47,7 +46,7 @@ class EventController(
         model.addAttribute("events", eventService.findAll(filter))
         model.addAttribute("clubs", clubs)
         model.addAttribute("clubNames", clubNames)
-        model.addAttribute("types", EventType.entries)
+        model.addAttribute("types", eventService.findAllTypes())
         model.addAttribute("selectedType", type)
         model.addAttribute("selectedClubId", clubId)
         model.addAttribute("selectedFrom", from)
@@ -75,7 +74,7 @@ class EventController(
         val club = clubService.findById(clubId)
         model.addAttribute("club", club)
         model.addAttribute("eventForm", EventFormDto())
-        model.addAttribute("types", EventType.entries)
+        model.addAttribute("types", eventService.findAllTypes())
         model.addAttribute("isEdit", false)
         return "events/form"
     }
@@ -112,14 +111,14 @@ class EventController(
                         name = event.name,
                         date = event.date,
                         location = event.location,
-                        type = event.type,
+                        type = event.type.name,
                         description = event.description
                 )
 
         model.addAttribute("club", clubService.findById(event.clubId))
         model.addAttribute("event", event)
         model.addAttribute("eventForm", form)
-        model.addAttribute("types", EventType.entries)
+        model.addAttribute("types", eventService.findAllTypes())
         model.addAttribute("isEdit", true)
         return "events/form"
     }
@@ -184,7 +183,7 @@ class EventController(
 
     private fun renderFormWithContext(clubId: Long, model: Model, isEdit: Boolean): String {
         model.addAttribute("club", clubService.findById(clubId))
-        model.addAttribute("types", EventType.entries)
+        model.addAttribute("types", eventService.findAllTypes())
         model.addAttribute("isEdit", isEdit)
         return "events/form"
     }

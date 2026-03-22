@@ -43,7 +43,7 @@
                                    th:text="${event.name}">Event name</a>
                             </td>
                             <td th:text="${event.date}">2026-01-01</td>
-                            <td th:text="${event.type}">WORKSHOP</td>
+                            <td th:text="${event.type.name}">WORKSHOP</td>
                             <td th:text="${event.location ?: '-'}">-</td>
                         </tr>
                         </tbody>

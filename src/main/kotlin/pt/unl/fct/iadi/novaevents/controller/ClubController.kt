@@ -13,6 +13,7 @@ class ClubController(private val clubService: ClubService, private val eventServ
     @GetMapping("/", "/clubs")
     fun listClubs(model: Model): String {
         model.addAttribute("clubs", clubService.findAll())
+        model.addAttribute("eventCounts", clubService.findEventCountsByClubId())
         return "clubs/list"
     }
 

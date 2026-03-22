@@ -17,6 +17,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Category</th>
+                    <th>Events</th>
                     <th>Description</th>
                 </tr>
                 </thead>
@@ -26,6 +27,7 @@
                         <a th:href="@{/clubs/{clubId}(clubId=${club.id})}" th:text="${club.name}">Club Name</a>
                     </td>
                     <td th:text="${club.category}">CATEGORY</td>
+                    <td th:text="${eventCounts[club.id] ?: 0}">0</td>
                     <td>
                         <details>
                             <summary>Show description</summary>
